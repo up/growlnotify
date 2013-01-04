@@ -79,7 +79,7 @@
         cache += "<div class='gn-body'>" + body + "</div>";
       }
       popup.innerHTML = cache;
-      popup.className = "gn-wrapper";
+      popup.setAttribute('class', 'gn-wrapper');
       popup.id = "gn-wrapper_" + id;
       popup.style.opacity = "0";
       popup.style.filter = "alpha(opacity = 0)";
@@ -149,7 +149,7 @@
     add_growl_styles: (function() {
       var style = document.createElement('style');
       style.type = 'text/css';
-      var def = ' ' +
+      var content = ' ' +
       '.gn { ' +
       '  position: fixed; padding: 20px 20px 0px; min-width: 250px; max-width: 350px; ' +
       '}' +
@@ -179,9 +179,9 @@
       '}';
 
       if (style.styleSheet) {   // IE
-          style.styleSheet.cssText = def;
+          style.styleSheet.cssText = content;
       } else {                // the world
-          style.appendChild(document.createTextNode(def));
+          style.appendChild(document.createTextNode(content));
       }
 
       document.getElementsByTagName('head')[0].appendChild(style);
