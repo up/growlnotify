@@ -70,7 +70,7 @@
         cache += "<span class='gn-close' id='gn-close-" + id + "'></span>";
       }
       if (gn_icon || icon) {
-        cache += "<img src='" + (icon ? icon + "'" : path + "icons/gn-" + method + ".png'") + " class='gn-icon' />";
+        cache += "<img src='" + (icon ? "icons/" + icon + "'" : path + "icons/gn-" + method + ".png'") + " class='gn-icon' />";
       }
       if (head) {
         cache += "<h3 class='gn-head'>" + head + "</h3>";
@@ -149,7 +149,7 @@
     add_growl_styles: (function() {
       var style = document.createElement('style');
       style.type = 'text/css';
-      style.innerHTML = ' ' +
+      var def = ' ' +
       '.gn { ' +
       '  position: fixed; padding: 20px 20px 0px; min-width: 250px; max-width: 350px; ' +
       '}' +
@@ -177,7 +177,15 @@
       '.gn-body {' +
       '  padding-top: 12px; font-size: 12px; color: #FEFEFE; line-height: 120%;' +
       '}';
+
+      if (style.styleSheet) {   // IE
+          style.styleSheet.cssText = def;
+      } else {                // the world
+          style.appendChild(document.createTextNode(def));
+      }
+
       document.getElementsByTagName('head')[0].appendChild(style);
+      
     } ())
 
   };

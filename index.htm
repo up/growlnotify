@@ -32,7 +32,7 @@
 	</a>
 	<br/>
 	<br/>
-	<a href="#" onclick="growl.notify({icon: 'my_icons/my_audio_icon.jpg', head: 'Please activate audio!', timeout: 2000});">
+	<a href="#" onclick="growl.notify({icon: 'my_audio_icon.jpg', head: 'Please activate audio!', timeout: 2000});">
 		Custom Icon
 	</a>
 	<br/>
@@ -47,126 +47,6 @@
 	<a href="#" onclick="growl.notify();">
 		No config message
 	</a>
-
-<p id="display"></p>
-
-<script type="text/javascript">
-
-var o_data = {},
-	o_xhr = null;
-
-var fn_get_xhr = function() {
-	try {
-		// Mozilla, Opera, Safari sowie Internet Explorer (ab v7)
-		o_xhr = new XMLHttpRequest();
-	} catch(e) {
-		try {
-			// MS Internet Explorer (ab v6)
-			o_xhr = new ActiveXObject("Microsoft.XMLHTTP");
-		} catch(e) {
-			try {
-				// MS Internet Explorer (ab v5)
-				o_xhr = new ActiveXObject("Msxml2.XMLHTTP");
-			} catch(e) {
-				o_xhr = null;
-			}
-		}
-	}
-	return o_xhr
-};
-
-var fn_create_array_from_csv_string = function(s_content) {
-
-	for (
-	  var a_lines = s_content.split("\n"), n_index = 0, n_length = a_lines.length, _aparts, s_year;
-	  n_index < n_length;
-	  n_index++
-	) {
-		a_parts = a_lines[n_index].split(",");
-		if (a_parts.length === 1) {
-			if (a_lines[n_index].length === 7) {
-				s_year = '_' + a_lines[n_index].substring(1, 5);
-				o_data[s_year] = [];
-			}
-		} else {
-			o_data[s_year].push({
-				'name': a_parts[0],
-				'sex': a_parts[1],
-				'number': a_parts[2]
-			});
-		}
-	}
-
-	CHMARK.set('Time for data array creation');
-
-};
-
-var fn_load_csv = function(s_path, fn_callback) {
-
-	CHMARK.set('init');
-
-	var s_response;
-	o_xhr = fn_get_xhr()
-
-	if (o_xhr) {
-		o_xhr.open('GET', s_path, true);
-		o_xhr.onreadystatechange = function() {
-			if (o_xhr.readyState == 4) {
-
-				CHMARK.set('Time for data loading via XHR');
-
-				s_response = o_xhr.responseText;
-				fn_create_array_from_csv_string(s_response);
-				fn_callback();
-			}
-		};
-		o_xhr.send(null);
-	}
-
-};
-
-var fn_load_json = function(s_path, fn_callback) {
-
-	//CHMARK.set('init2');
-
-	var s_response;
-
-	if (o_xhr) {
-		o_xhr.open('GET', s_path, true);
-		o_xhr.onreadystatechange = function() {
-			if (o_xhr.readyState == 4) {
-				//CHMARK.set('Time for data loading via XHR');
-				s_response = o_xhr.responseText;
-				fn_create_array_from_csv_string(s_response);
-				fn_callback();
-			}
-		};
-		o_xhr.send(null);
-	}
-
-};
-
-fn_load_csv('datasets/hit_list_of_first_names.csv', function() {
-	CHMARK.run({
-		title: 'CSV to Array test (2.2 MB)',
-		output: 'growl'
-	});
-});
-
-/*
-fn_load_json('datasets/yob2.json', function(){
-
-  CHMARK.run({
-	  title: 'Test',
-	  output: '#display'
-  });
-});
-*/
-//console.log(chmark.timestamp.length);
-//console.log(o_data['_2006'].length);
-//console.log(o_data);
-</script>
-
 
 </body>
 </html>
